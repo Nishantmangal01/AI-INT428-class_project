@@ -1,5 +1,5 @@
 # AI-INT428-class_project
-# 🎬 AI Movie Studio Creator (Text-Based)
+# 🎬 AI Movie Studio Creator
 
 An AI-powered web application that generates structured movie content including **plots, screenplay dialogue, and story ideas** using a locally hosted language model.
 
