@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Movie Studio Creator</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&family=Manrope:wght@300;400;500;600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="Project.css">
+
+    <script>
+        (function() {
+            const saved = localStorage.getItem("theme");
+            if (saved === "light") document.documentElement.classList.add("light-mode-pre");
+        })();
+    </script>
+
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="page-loader">
+        <div class="loader-content">
+            <div class="loader-icon">
+                <i class="ph ph-film-slate"></i>
+            </div>
+            <h1 class="loader-title">AI STUDIO</h1>
+            <div class="loader-bar-track">
+                <div class="loader-bar-fill"></div>
+            </div>
+            <p class="loader-subtitle">Preparing your cinematic suite...</p>
+        </div>
+    </div>
+
+    <!-- Film Grain Overlay -->
+    <div class="film-grain"></div>
+
+    <div class="app-container">
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="ph ph-film-slate"></i>
+                <h1>AI STUDIO</h1>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-item active" data-view="dashboard" data-testid="nav-dashboard">
+                    <i class="ph ph-squares-four"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-view="plot" data-testid="nav-plot">
+                    <i class="ph ph-book-open"></i>
+                    <span>Plot Generator</span>
+                </button>
+                <button class="nav-item" data-view="character" data-testid="nav-character">
+                    <i class="ph ph-user-circle"></i>
+                    <span>Character Visual</span>
+                </button>
+                <button class="nav-item" data-view="script" data-testid="nav-script">
+                    <i class="ph ph-file-text"></i>
+                    <span>Trailer Script</span>
+                </button>
+                <button class="nav-item" data-view="dialogue" data-testid="nav-dialogue">
+                    <i class="ph ph-pencil-line"></i>
+                    <span>Screenplay</span>
+                </button>
+                <button class="nav-item" data-view="chat" data-testid="nav-chat">
+                    <i class="ph ph-chat-circle-dots"></i>
+                    <span>Story Consultant</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <div class="status-dot" id="status-dot"></div>
+                    <span id="status-text">AI Studio Online</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+
+            <div id="dashboard-view" class="view-container active">
+                <header class="page-header">
+                    <div class="page-header-text">
+                        <h2>AI Movie Studio</h2>
+                        <p class="subtitle">Your complete cinematic creation suite</p>
+                    </div>
+                    <button class="theme-toggle" id="theme-toggle-btn" title="Toggle light/dark mode" onclick="toggleTheme()">
+                    <i class="ph ph-sun" id="theme-icon"></i>
+                    </button>
+                </header>
+
+                <div class="dashboard-grid">
+                    <div class="feature-card" data-testid="plot-card">
+                        <div class="card-icon"><i class="ph ph-book-open"></i></div>
+                        <h3>Plot Generator</h3>
+                        <p>Create compelling movie plots with genre, theme, and custom story elements powered by AI.</p>
+                        <button class="btn-secondary" onclick="switchView('plot')" data-testid="goto-plot-btn">
+                            <i class="ph ph-arrow-right"></i> Start Creating
+                        </button>
+                    </div>
+
+                    <div class="feature-card" data-testid="character-card">
+                        <div class="card-icon"><i class="ph ph-user-circle"></i></div>
+                        <h3>Character Visual</h3>
+                        <p>Generate stunning, cinematic character portraits with custom style and mood settings.</p>
+                        <button class="btn-secondary" onclick="switchView('character')" data-testid="goto-character-btn">
+                            <i class="ph ph-arrow-right"></i> Generate Image
+                        </button>
+                    </div>
+
+                    <div class="feature-card" data-testid="script-card">
+                        <div class="card-icon"><i class="ph ph-file-text"></i></div>
+                        <h3>Trailer Script</h3>
+                        <p>Craft theatrical, timed movie trailer scripts with proper cinematic formatting.</p>
+                        <button class="btn-secondary" onclick="switchView('script')" data-testid="goto-script-btn">
+                            <i class="ph ph-arrow-right"></i> Write Script
+                        </button>
+                    </div>
+
+                    <div class="feature-card" data-testid="dialogue-card">
+                        <div class="card-icon"><i class="ph ph-pencil-line"></i></div>
+                        <h3>Screenplay Dialogue</h3>
+                        <p>Generate emotionally rich, scene-based dialogue between characters in proper screenplay format.</p>
+                        <button class="btn-secondary" onclick="switchView('dialogue')" data-testid="goto-dialogue-btn">
+                            <i class="ph ph-arrow-right"></i> Create Dialogue
+                        </button>
+                    </div>
+
+                    <div class="feature-card" data-testid="chat-card">
+                        <div class="card-icon"><i class="ph ph-chat-circle-dots"></i></div>
+                        <h3>Story Consultant</h3>
+                        <p>Refine your ideas with a conversational AI creative consultant. Multi-turn, context-aware chat.</p>
+                        <button class="btn-secondary" onclick="switchView('chat')" data-testid="goto-chat-btn">
+                            <i class="ph ph-arrow-right"></i> Start Chat
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="plot-view" class="view-container">
+                <header class="page-header">
+                    <h2>Plot Generator</h2>
+                    <p class="subtitle">Let AI craft your story</p>
+                </header>
+
+                <div class="split-layout">
+                    <div class="controls-panel">
+                        <div class="form-group">
+                            <label for="plot-genre">Genre / Category</label>
+                            <input type="text" id="plot-genre" placeholder="e.g., Sci-Fi, Drama, Thriller" data-testid="plot-genre-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="plot-theme">Central Theme</label>
+                            <input type="text" id="plot-theme" placeholder="e.g., Redemption, Love, Revenge" data-testid="plot-theme-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="plot-description">Additional Details</label>
+                            <textarea id="plot-description" rows="4" placeholder="Describe specific elements you want in your plot..." data-testid="plot-description-input"></textarea>
+                        </div>
+                        <button class="btn-primary" onclick="generatePlot()" data-testid="generate-plot-btn">
+                            <i class="ph ph-sparkle"></i>
+                            <span>Generate Plot</span>
+                        </button>
+                        <button class="btn-secondary" style="margin-top:10px; width:100%;" onclick="copyResult('plot-result')">
+                            <i class="ph ph-copy"></i> Copy Result
+                        </button>
+                    </div>
+
+                    <div class="preview-panel">
+                        <div id="plot-loading" class="loading-state" style="display:none;">
+                            <div class="spinner"></div>
+                            <p>Crafting your movie plot...</p>
+                        </div>
+                        <div id="plot-placeholder" class="empty-state">
+                            <i class="ph ph-book-open-text"></i>
+                            <p>Your generated plot will appear here</p>
+                        </div>
+                        <div id="plot-result" class="result-content" data-testid="plot-result"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="character-view" class="view-container">
+                <header class="page-header">
+                    <h2>Character Visual Generator</h2>
+                    <p class="subtitle">Bring your characters to life</p>
+                </header>
+
+                <div class="split-layout">
+                    <div class="controls-panel">
+                        <div class="form-group">
+                            <label for="char-description">Character Description</label>
+                            <textarea id="char-description" rows="4" placeholder="e.g., A rugged detective in his 40s with a scar across his left eye, wearing a trench coat..." data-testid="char-description-input"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="char-style">Visual Style</label>
+                            <select id="char-style" data-testid="char-style-input">
+                                <option value="realistic cinematic">Realistic Cinematic</option>
+                                <option value="film noir">Film Noir</option>
+                                <option value="comic book illustration">Comic Book</option>
+                                <option value="oil painting">Oil Painting</option>
+                                <option value="anime style">Anime Style</option>
+                                <option value="watercolor">Watercolor</option>
+                                <option value="3D render">3D Render</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="char-mood">Mood / Lighting</label>
+                            <select id="char-mood" data-testid="char-mood-input">
+                                <option value="dramatic shadows">Dramatic Shadows</option>
+                                <option value="golden hour">Golden Hour</option>
+                                <option value="moody blue tones">Moody Blue</option>
+                                <option value="soft diffused light">Soft & Diffused</option>
+                                <option value="harsh contrast noir lighting">High Contrast Noir</option>
+                                <option value="neon glow cyberpunk">Neon Glow</option>
+                            </select>
+                        </div>
+                        <button class="btn-primary" onclick="generateCharacter()" data-testid="generate-character-btn">
+                            <i class="ph ph-image"></i>
+                            <span>Generate Character</span>
+                        </button>
+                    </div>
+
+                    <div class="preview-panel">
+                        <div id="char-loading" class="loading-state" style="display:none;">
+                            <div class="spinner"></div>
+                            <p>Creating character visual...</p>
+                        </div>
+                        <div id="char-result" class="image-result" data-testid="char-result">
+                            <div class="empty-state">
+                                <i class="ph ph-user-circle"></i>
+                                <p>Your character portrait will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="script-view" class="view-container">
+                <header class="page-header">
+                    <h2>Trailer Script Generator</h2>
+                    <p class="subtitle">Write your theatrical trailer</p>
+                </header>
+
+                <div class="split-layout">
+                    <div class="controls-panel">
+                        <div class="form-group">
+                            <label for="script-plot">Plot Summary</label>
+                            <textarea id="script-plot" rows="5" placeholder="Provide a brief summary of your movie plot..." data-testid="script-plot-input"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="script-tone">Tone</label>
+                            <input type="text" id="script-tone" placeholder="e.g., Suspenseful, Epic, Heartwarming" data-testid="script-tone-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="script-duration">Duration</label>
+                            <select id="script-duration" data-testid="script-duration-select">
+                                <option value="30 seconds">30 seconds</option>
+                                <option value="60 seconds" selected>60 seconds</option>
+                                <option value="90 seconds">90 seconds</option>
+                                <option value="2 minutes">2 minutes</option>
+                            </select>
+                        </div>
+                        <button class="btn-primary" onclick="generateScript()" data-testid="generate-script-btn">
+                            <i class="ph ph-file-text"></i>
+                            <span>Generate Script</span>
+                        </button>
+                        <button class="btn-secondary" style="margin-top:10px; width:100%;" onclick="copyResult('script-result')">
+                            <i class="ph ph-copy"></i> Copy Script
+                        </button>
+                    </div>
+
+                    <div class="preview-panel">
+                        <div id="script-loading" class="loading-state" style="display:none;">
+                            <div class="spinner"></div>
+                            <p>Writing trailer script...</p>
+                        </div>
+                        <div id="script-placeholder" class="empty-state">
+                            <i class="ph ph-film-strip"></i>
+                            <p>Your trailer script will appear here</p>
+                        </div>
+                        <div id="script-result" class="script-content" data-testid="script-result"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dialogue-view" class="view-container">
+                <header class="page-header">
+                    <h2>Screenplay Dialogue</h2>
+                    <p class="subtitle">Craft emotionally powerful scene dialogue</p>
+                </header>
+
+                <div class="split-layout">
+                    <div class="controls-panel">
+                        <div class="form-group">
+                            <label for="dialogue-scene">Scene Description</label>
+                            <textarea id="dialogue-scene" rows="3" placeholder="e.g., A dimly lit interrogation room. Detective COLE confronts MARCUS about the murder..." data-testid="dialogue-scene-input"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dialogue-characters">Characters (comma-separated)</label>
+                            <input type="text" id="dialogue-characters" placeholder="e.g., DETECTIVE COLE, MARCUS, CAPTAIN REED" data-testid="dialogue-characters-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="dialogue-mood">Emotional Tone / Mood</label>
+                            <select id="dialogue-mood" data-testid="dialogue-mood-input">
+                                <option value="tense and confrontational">Tense & Confrontational</option>
+                                <option value="emotional and heartfelt">Emotional & Heartfelt</option>
+                                <option value="witty and sharp banter">Witty Banter</option>
+                                <option value="mysterious and cryptic">Mysterious & Cryptic</option>
+                                <option value="dramatic and intense">Dramatic & Intense</option>
+                                <option value="comedic and lighthearted">Comedic</option>
+                                <option value="romantic and tender">Romantic & Tender</option>
+                                <option value="horror and dread">Horror & Dread</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dialogue-context">Background / Context (optional)</label>
+                            <textarea id="dialogue-context" rows="3" placeholder="Any additional context about characters' history, motivations, secrets..." data-testid="dialogue-context-input"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dialogue-length">Dialogue Length</label>
+                            <select id="dialogue-length" data-testid="dialogue-length-select">
+                                <option value="short (6-8 exchanges)">Short (6–8 exchanges)</option>
+                                <option value="medium (12-15 exchanges)" selected>Medium (12–15 exchanges)</option>
+                                <option value="long (20+ exchanges)">Long (20+ exchanges)</option>
+                            </select>
+                        </div>
+                        <button class="btn-primary" onclick="generateDialogue()" data-testid="generate-dialogue-btn">
+                            <i class="ph ph-pencil-line"></i>
+                            <span>Generate Dialogue</span>
+                        </button>
+                        <button class="btn-secondary" style="margin-top:10px; width:100%;" onclick="copyResult('dialogue-result')">
+                            <i class="ph ph-copy"></i> Copy Dialogue
+                        </button>
+                    </div>
+
+                    <div class="preview-panel">
+                        <div id="dialogue-loading" class="loading-state" style="display:none;">
+                            <div class="spinner"></div>
+                            <p>Writing your screenplay dialogue...</p>
+                        </div>
+                        <div id="dialogue-placeholder" class="empty-state">
+                            <i class="ph ph-chat-centered-text"></i>
+                            <p>Your screenplay dialogue will appear here</p>
+                        </div>
+                        <div id="dialogue-result" class="script-content" data-testid="dialogue-result"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="chat-view" class="view-container">
+                <header class="page-header">
+                    <h2>Story Consultant</h2>
+                    <p class="subtitle">Refine your ideas with AI guidance</p>
+                </header>
+
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-header-info">
+                            <div class="chat-avatar-large">
+                                <i class="ph ph-robot"></i>
+                            </div>
+                            <div>
+                                <strong>AI Story Consultant</strong>
+                                <span class="chat-status">Online · Ready to help</span>
+                            </div>
+                        </div>
+                        <button class="btn-secondary" onclick="clearChat()" style="padding:6px 14px; font-size:12px;">
+                            <i class="ph ph-trash"></i> Clear Chat
+                        </button>
+                    </div>
+
+                    <div id="chat-messages" class="chat-messages" data-testid="chat-messages">
+                        <div class="chat-message ai-message" data-testid="ai-message">
+                            <div class="message-avatar">
+                                <i class="ph ph-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <p>Welcome to AI Story Consultant! 🎬 I can help you refine movie plots, develop complex characters, improve dialogue, analyze story structure, and enhance your overall storytelling. What would you like to work on today?</p>
+                                <span class="message-time">Now</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-input-container">
+                        <textarea
+                            id="chat-input"
+                            placeholder="Ask about story development, character arcs, pacing, dialogue..."
+                            rows="2"
+                            data-testid="chat-input"
+                        ></textarea>
+                        <button class="btn-primary" onclick="sendChatMessage()" data-testid="send-chat-btn">
+                            <i class="ph ph-paper-plane-right"></i>
+                            <span>Send</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="App.js"></script>
+</body>
+</html>
